@@ -82,7 +82,7 @@ public class ImageService implements IImageService {
                 throw new RuntimeException(exception.getMessage());
             }
         }
-        return savedImageDTO;
+        return savedImageDTOs;
     }
 
     @Override
