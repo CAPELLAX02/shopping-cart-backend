@@ -2,6 +2,7 @@ package com.capellax.shoppingCart.service.product;
 
 import com.capellax.shoppingCart.model.Product;
 import com.capellax.shoppingCart.request.AddProductRequest;
+import com.capellax.shoppingCart.request.UpdateProductRequest;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface IProductService {
     Product getProductById(Long productId);
 
     void deleteProduct(Long productId);
-    void updateProduct(Product product, Long productId);
+    Product updateProduct(UpdateProductRequest request, Long productId);
 
     List<Product> getAllProducts();
     List<Product> getProductsByCategory(String category);
