@@ -1,33 +1,65 @@
 package com.capellax.shoppingCart.service.product;
 
 import com.capellax.shoppingCart.exceptions.ProductNotFoundException;
+import com.capellax.shoppingCart.model.Category;
 import com.capellax.shoppingCart.model.Product;
+import com.capellax.shoppingCart.repository.CategoryRepository;
 import com.capellax.shoppingCart.repository.ProductRepository;
+import com.capellax.shoppingCart.request.AddProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public Product addProduct(Product product) {
-        return null;
+    public Product addProduct(
+            AddProductRequest request
+    ) {
+        Category category =
+                Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                        .orElseGet(() -> {
+                            Category newCategory = new Category(request.getCategory().getName());
+                            return categoryRepository.save(newCategory);
+                        });
+        request.setCategory(category);
+        return productRepository.save(createProduct(request, category));
+    }
+
+    private Product createProduct(
+            AddProductRequest request,
+            Category category
+    ) {
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
     }
 
     @Override
-    public Product getProductById(Long productId) {
+    public Product getProductById(
+            Long productId
+    ) {
         return productRepository
                 .findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found!"));
     }
 
     @Override
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(
+            Long productId
+    ) {
         productRepository
                 .findById(productId)
                 .ifPresentOrElse(
@@ -37,7 +69,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void updateProduct(Product product, Long productId) {
+    public void updateProduct(
+            Product product,
+            Long productId
+    ) {
 
     }
 
@@ -47,32 +82,47 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getProductsByCategory(String category) {
+    public List<Product> getProductsByCategory(
+            String category
+    ) {
         return productRepository.findByCategoryName(category);
     }
 
     @Override
-    public List<Product> getProductByBrand(String brand) {
+    public List<Product> getProductByBrand(
+            String brand
+    ) {
         return productRepository.findByBrand(brand);
     }
 
     @Override
-    public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
+    public List<Product> getProductsByCategoryAndBrand(
+            String category,
+            String brand
+    ) {
         return productRepository.findByCategoryNameAndBrand(category, brand);
     }
 
     @Override
-    public List<Product> getProductsByName(String name) {
+    public List<Product> getProductsByName(
+            String name
+    ) {
         return productRepository.findByName(name);
     }
 
     @Override
-    public List<Product> getProductsByBrandAndName(String brand, String name) {
+    public List<Product> getProductsByBrandAndName(
+            String brand,
+            String name
+    ) {
         return productRepository.findByBrandAndName(brand, name);
     }
 
     @Override
-    public Long countProductsByBrandAndName(String brand, String name) {
+    public Long countProductsByBrandAndName(
+            String brand,
+            String name
+    ) {
         return productRepository.countByBrandAndName(brand, name);
     }
 }

@@ -1,12 +1,13 @@
 package com.capellax.shoppingCart.service.product;
 
 import com.capellax.shoppingCart.model.Product;
+import com.capellax.shoppingCart.request.AddProductRequest;
 
 import java.util.List;
 
 public interface IProductService {
 
-    Product addProduct(Product product);
+    Product addProduct(AddProductRequest product);
     Product getProductById(Long productId);
 
     void deleteProduct(Long productId);
