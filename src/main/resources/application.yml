@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: shoppingCart
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shopping_cart_db
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
