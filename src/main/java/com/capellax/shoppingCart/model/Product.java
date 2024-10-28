@@ -1,4 +1,4 @@
-package com.capellax.shoppingCart.mode;
+package com.capellax.shoppingCart.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
