@@ -1,5 +1,6 @@
 package com.capellax.shoppingCart.service.product;
 
+import com.capellax.shoppingCart.dto.ProductDTO;
 import com.capellax.shoppingCart.model.Product;
 import com.capellax.shoppingCart.request.AddProductRequest;
 import com.capellax.shoppingCart.request.UpdateProductRequest;
@@ -22,5 +23,8 @@ public interface IProductService {
     List<Product> getProductsByBrandAndName(String brand, String name);
 
     Long countProductsByBrandAndName(String brand, String name);
+
+    ProductDTO convertProductToProductDTO(Product product);
+    List<ProductDTO> getConvertedProductDTOs(List<Product> products);
 
 }

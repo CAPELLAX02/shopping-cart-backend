@@ -22,8 +22,18 @@ public class ProductController {
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        return ResponseEntity.ok(new ApiResponse("Success!", products));
+        try {
+            List<Product> products = productService.getAllProducts();
+            if (products.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse("No products found!", null));
+            }
+            return ResponseEntity.ok(new ApiResponse("Success!", products));
+
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Internal Server Error!", exception));
+        }
     }
 
     @GetMapping("/{productId}")
@@ -121,9 +131,9 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/{productName}")
+    @GetMapping("/by/name")
     public ResponseEntity<ApiResponse> getProductsByName(
-            @PathVariable String productName
+            @RequestParam String productName
     ) {
         try {
             List<Product> products = productService.getProductsByName(productName);

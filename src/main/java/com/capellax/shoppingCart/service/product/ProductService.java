@@ -1,13 +1,18 @@
 package com.capellax.shoppingCart.service.product;
 
+import com.capellax.shoppingCart.dto.ImageDTO;
+import com.capellax.shoppingCart.dto.ProductDTO;
 import com.capellax.shoppingCart.exceptions.ProductNotFoundException;
 import com.capellax.shoppingCart.model.Category;
+import com.capellax.shoppingCart.model.Image;
 import com.capellax.shoppingCart.model.Product;
 import com.capellax.shoppingCart.repository.CategoryRepository;
+import com.capellax.shoppingCart.repository.ImageRepository;
 import com.capellax.shoppingCart.repository.ProductRepository;
 import com.capellax.shoppingCart.request.AddProductRequest;
 import com.capellax.shoppingCart.request.UpdateProductRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +24,8 @@ public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+    private final ImageRepository imageRepository;
 
     @Override
     public Product addProduct(
@@ -147,6 +154,37 @@ public class ProductService implements IProductService {
     ) {
         return productRepository.countByBrandAndName(brand, name);
     }
+
+    @Override
+    public ProductDTO convertProductToProductDTO(
+            Product product
+    ) {
+        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDTO> imageDTOS = images.stream()
+                .map(image -> modelMapper.map(image, ImageDTO.class))
+                .toList();
+        productDTO.setImages(imageDTOS);
+        return productDTO;
+    }
+
+    @Override
+    public List<ProductDTO> getConvertedProductDTOs(
+            List<Product> products
+    ) {
+        return products.stream()
+                .map(this::convertProductToProductDTO)
+                .toList();
+    }
+
+
+
+
+
+
+
+
+
 
 
 }
