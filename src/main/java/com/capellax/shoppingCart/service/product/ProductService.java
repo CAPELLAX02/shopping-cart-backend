@@ -75,6 +75,7 @@ public class ProductService implements IProductService {
             Long productId
     ) {
         return productRepository
+
                 .findById(productId)
                 .map(existingProduct -> updateExistingProduct(existingProduct, request))
                 .map(productRepository::save)
@@ -146,4 +147,6 @@ public class ProductService implements IProductService {
     ) {
         return productRepository.countByBrandAndName(brand, name);
     }
+
+
 }
