@@ -7,7 +7,6 @@ import com.capellax.shoppingCart.request.UpdateProductRequest;
 import com.capellax.shoppingCart.response.ApiResponse;
 import com.capellax.shoppingCart.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
