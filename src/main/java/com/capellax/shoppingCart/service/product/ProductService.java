@@ -107,14 +107,14 @@ public class ProductService implements IProductService {
     public List<Product> getProductsByCategory(
             String category
     ) {
-        return productRepository.findByCategoryName(category);
+        return productRepository.findByCategoryNameIgnoreCase(category);
     }
 
     @Override
     public List<Product> getProductByBrand(
             String brand
     ) {
-        return productRepository.findByBrand(brand);
+        return productRepository.findByBrandIgnoreCase(brand);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class ProductService implements IProductService {
     public List<Product> getProductsByName(
             String name
     ) {
-        return productRepository.findByName(name);
+        return productRepository.findByNameIgnoreCase(name);
     }
 
     @Override

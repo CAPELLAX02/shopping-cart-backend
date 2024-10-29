@@ -40,7 +40,7 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/download/{imageId}")
+    @GetMapping("/{imageId}/download")
     public ResponseEntity<Resource> downloadImage(
             @PathVariable Long imageId
     ) throws SQLException {
