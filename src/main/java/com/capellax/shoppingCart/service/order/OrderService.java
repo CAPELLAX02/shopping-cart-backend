@@ -1,7 +1,6 @@
 package com.capellax.shoppingCart.service.order;
 
 import com.capellax.shoppingCart.dto.OrderDTO;
-import com.capellax.shoppingCart.dto.OrderItemDTO;
 import com.capellax.shoppingCart.enums.OrderStatus;
 import com.capellax.shoppingCart.exceptions.ResourceNotFoundException;
 import com.capellax.shoppingCart.model.Cart;
