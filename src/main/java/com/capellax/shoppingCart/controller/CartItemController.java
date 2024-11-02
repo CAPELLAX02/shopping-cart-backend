@@ -1,8 +1,6 @@
 package com.capellax.shoppingCart.controller;
 
 import com.capellax.shoppingCart.exceptions.ResourceNotFoundException;
-import com.capellax.shoppingCart.model.Cart;
-import com.capellax.shoppingCart.model.User;
 import com.capellax.shoppingCart.response.ApiResponse;
 import com.capellax.shoppingCart.service.cart.ICartService;
 import com.capellax.shoppingCart.service.cart.cartItem.ICartItemService;
@@ -23,15 +21,16 @@ public class CartItemController {
 
     @PostMapping("/item/add")
     public ResponseEntity<ApiResponse> addItemToCart(
+            @RequestParam(required = false) Long cartId,
             @RequestParam Long productId,
             @RequestParam Integer quantity
     ) {
         try {
-            User user = iUserService.getUserById(2L);
-            Cart cart = iCartService.initializeNewCart(user);
-            iCartItemService.addItemToCart(cart.getId(), productId, quantity);
-            return ResponseEntity.ok(new ApiResponse("Add Item Success!", null));
-
+            if (cartId == null) {
+                cartId= iCartService.initializeNewCart();
+            }
+            iCartItemService.addItemToCart(cartId, productId, quantity);
+            return ResponseEntity.ok(new ApiResponse("Add Item Success", null));
         } catch (ResourceNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse("Product not found", null));
